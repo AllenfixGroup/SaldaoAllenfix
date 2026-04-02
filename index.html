@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabela de Preços</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  nav {
+    width: 240px;
+    min-width: 240px;
+    background: #1a2332;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .nav-header {
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid #2d3f55;
+  }
+  .nav-header span {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #7c8fa6;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .nav-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .nav-search {
+    padding: 10px 12px;
+    border-bottom: 1px solid #2d3f55;
+  }
+  .nav-search input {
+    width: 100%;
+    background: #243044;
+    border: 1px solid #2d3f55;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 12px;
+    padding: 7px 10px 7px 30px;
+    outline: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237c8fa6' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 9px center;
+  }
+  .nav-search input::placeholder { color: #6b7f96; }
+  .nav-search input:focus { border-color: #3b82f6; }
+
+  .nav-list {
+    list-style: none;
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px 0;
+  }
+  .nav-list::-webkit-scrollbar { width: 3px; }
+  .nav-list::-webkit-scrollbar-thumb { background: #2d3f55; border-radius: 4px; }
+
+  .nav-list li button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #9ab0c8;
+    font-size: 12px;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s;
+  }
+  .nav-list li button .ico {
+    font-size: 15px;
+    min-width: 20px;
+    text-align: center;
+  }
+  .nav-list li button:hover {
+    background: #243044;
+    color: #fff;
+    border-left-color: #3b82f6;
+  }
+  .nav-list li button.active {
+    background: #243044;
+    color: #fff;
+    border-left-color: #3b82f6;
+    font-weight: 600;
+  }
+  .nav-list li.hidden { display: none; }
+
+  .nav-footer {
+    padding: 10px 14px;
+    border-top: 1px solid #2d3f55;
+    font-size: 11px;
+    color: #4a6175;
+    text-align: center;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .topbar {
+    background: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topbar-icon { font-size: 22px; line-height: 1; }
+  .topbar h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a2332;
+    flex: 1;
+  }
+  .badge {
+    font-size: 11px;
+    background: #eff6ff;
+    color: #3b82f6;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid #bfdbfe;
+    white-space: nowrap;
+  }
+
+  .frame-wrapper {
+    flex: 1;
+    margin: 12px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  .welcome {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .welcome-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+  }
+
+  .welcome-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(10, 18, 30, 0.62);
+    z-index: 1;
+  }
+
+  .welcome-text {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 30px;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .welcome-text .tag {
+    display: inline-block;
+    background: #f59e0b;
+    color: #1a1a1a;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .welcome-text h1 {
+    font-size: 42px;
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    text-shadow: 0 3px 16px rgba(0,0,0,0.6);
+    margin-bottom: 10px;
+  }
+
+  .welcome-text h1 span {
+    color: #f59e0b;
+  }
+
+  .welcome-text .sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 24px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    font-weight: 400;
+  }
+
+  .welcome-text .cta {
+    display: inline-block;
+    background: #f59e0b;
+    color: #1a1a1a;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 10px 28px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 18px rgba(245,158,11,0.45);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 4px 18px rgba(245,158,11,0.45); }
+    50%       { box-shadow: 0 4px 32px rgba(245,158,11,0.85); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-header">
+    <span>Tabela de Preços</span>
+    <h2>🔩 Catálogo Geral</h2>
+  </div>
+
+  <div class="nav-search">
+    <input type="text" id="searchInput"
+      placeholder="Buscar categoria..."
+      oninput="filterNav(this.value)">
+  </div>
+
+  <ul class="nav-list" id="navList">
+    <li><button onclick="loadSheet(this,'src/pf_a325_et.html','PF A325 ET','🔩')">
+      <span class="ico">🔩</span> PF A325 ET</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_a325_zb.html','PF A325 ZB','🔩')">
+      <span class="ico">🔩</span> PF A325 ZB</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_a325_gf.html','PF A325 GF','🔩')">
+      <span class="ico">🔩</span> PF A325 GF</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_sx_8_8_zb.html','PF SX 8.8 ZB','🔩')">
+      <span class="ico">🔩</span> PF SX 8.8 ZB</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_gr5_et.html','PF GR5 ET','🔩')">
+      <span class="ico">🔩</span> PF GR5 ET</button></li>
+    <li><button onclick="loadSheet(this,'src/po_sx_gr2_pl.html','PO SX GR2 PL','🔧')">
+      <span class="ico">🔧</span> PO SX GR2 PL</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_sx_gr2_pl.html','PF SX GR2 PL','🔧')">
+      <span class="ico">🔧</span> PF SX GR2 PL</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_gr2_zb.html','PF GR2 ZB','🔧')">
+      <span class="ico">🔧</span> PF GR2 ZB</button></li>
+    <li><button onclick="loadSheet(this,'src/po_sx_gr2_zb.html','PO SX GR2 ZB','🔧')">
+      <span class="ico">🔧</span> PO SX GR2 ZB</button></li>
+    <li><button onclick="loadSheet(this,'src/po_sx_cl8_et.html','PO SX CL8 ET','🔧')">
+      <span class="ico">🔧</span> PO SX CL8 ET</button></li>
+    <li><button onclick="loadSheet(this,'src/po_trav_nylon.html','PO TRAV NYLON','⚙️')">
+      <span class="ico">⚙️</span> PO TRAV NYLON</button></li>
+    <li><button onclick="loadSheet(this,'src/arr_din_125_gf.html','ARR DIN 125 GF','⭕')">
+      <span class="ico">⭕</span> ARR DIN 125 GF</button></li>
+    <li><button onclick="loadSheet(this,'src/chumb_cb.html','CHUMB CB','🔨')">
+      <span class="ico">🔨</span> CHUMB CB</button></li>
+    <li><button onclick="loadSheet(this,'src/chumb_cb_gf.html','CHUMB CB GF','🔨')">
+      <span class="ico">🔨</span> CHUMB CB GF</button></li>
+    <li><button onclick="loadSheet(this,'src/jaq_e_cone.html','JAQ E CONE','🔨')">
+      <span class="ico">🔨</span> JAQ E CONE</button></li>
+    <li><button onclick="loadSheet(this,'src/chumb_tb.html','CHUMB TB','🔨')">
+      <span class="ico">🔨</span> CHUMB TB</button></li>
+    <li><button onclick="loadSheet(this,'src/inox_304.html','INOX 304','✨')">
+      <span class="ico">✨</span> INOX 304</button></li>
+    <li><button onclick="loadSheet(this,'src/brocante_zb.html','BROCANTE ZB','🔩')">
+      <span class="ico">🔩</span> BROCANTE ZB</button></li>
+  </ul>
+
+  <div class="nav-footer">Atualizado em Abril / 2026</div>
+</nav>
+
+<div class="content">
+  <div class="topbar">
+    <span class="topbar-icon" id="topbarIcon">📋</span>
+    <h3 id="currentTitle">Selecione uma categoria</h3>
+    <span class="badge" id="currentBadge">18 categorias</span>
+  </div>
+
+  <div class="frame-wrapper">
+    <div class="welcome" id="welcomeScreen">
+      <img class="welcome-bg" src="src/fundosite.jpeg" alt="Fundo Allenfix">
+      <div class="welcome-overlay"></div>
+      <div class="welcome-text">
+        <div class="tag">🔥 Oferta Especial</div>
+        <h1>MEGA SALDÃO<br><span>ALLENFIX GROUP</span></h1>
+        <p class="sub">
+          Tabela de preços dos itens promocionais<br>
+          Parafusos · Porcas · Arruelas · Fixadores · Inox
+        </p>
+        <div class="cta">👈 Escolha uma categoria ao lado</div>
+      </div>
+    </div>
+    <iframe id="contentFrame" src="" style="display:none;"></iframe>
+  </div>
+</div>
+
+<script>
+  let activeBtn = null;
+
+  function loadSheet(btn, file, title, icon) {
+    if (activeBtn) activeBtn.classList.remove('active');
+    btn.classList.add('active');
+    activeBtn = btn;
+
+    document.getElementById('currentTitle').textContent = title;
+    document.getElementById('topbarIcon').textContent = icon;
+    document.getElementById('currentBadge').textContent = 'Preços';
+
+    document.getElementById('welcomeScreen').style.display = 'none';
+    const frame = document.getElementById('contentFrame');
+    frame.style.display = 'block';
+    frame.src = file;
+  }
+
+  function filterNav(query) {
+    const q = query.toLowerCase();
+    document.querySelectorAll('#navList li').forEach(li => {
+      const txt = li.querySelector('button').textContent.toLowerCase();
+      li.classList.toggle('hidden', !txt.includes(q));
+    });
+  }
+</script>
+
+</body>
+</html>
