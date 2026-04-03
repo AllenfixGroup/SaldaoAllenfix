@@ -162,6 +162,7 @@
     display: block;
   }
 
+  /* ===== TELA DE BOAS-VINDAS ===== */
   .welcome {
     width: 100%;
     height: 100%;
@@ -231,11 +232,48 @@
   }
 
   .welcome-text .sub {
-    font-size: 16px;
+    font-size: 15px;
     color: rgba(255,255,255,0.85);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     text-shadow: 0 1px 6px rgba(0,0,0,0.5);
     font-weight: 400;
+    line-height: 1.7;
+  }
+
+  /* Caixa de email em destaque */
+  .email-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.6);
+    border-radius: 12px;
+    padding: 14px 28px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(4px);
+  }
+
+  .email-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+
+  .email-link {
+    font-size: 18px;
+    font-weight: 800;
+    color: #f59e0b;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    transition: color 0.2s;
+  }
+
+  .email-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
   }
 
   .welcome-text .cta {
@@ -323,19 +361,28 @@
 
   <div class="frame-wrapper">
     <div class="welcome" id="welcomeScreen">
+
       <img class="welcome-bg" src="src/fundosite.jpeg" alt="Fundo Allenfix">
       <div class="welcome-overlay"></div>
+
       <div class="welcome-text">
         <div class="tag">🔥 Oferta Especial</div>
         <h1>MEGA SALDÃO<br><span>ALLENFIX GROUP</span></h1>
         <p class="sub">
           Tabela de preços dos itens promocionais<br>
-           <h4><br>Solicitação de compra através<br>
-           <br>comercial@allenfixgroup.com.br<br></h4>
           Parafusos · Porcas · Arruelas · Fixadores · Inox
         </p>
+
+        <div class="email-box">
+          <span class="email-label">📧 Solicitação de compra através</span>
+          <a href="mailto:comercial@allenfixgroup.com.br" class="email-link">
+            comercial@allenfixgroup.com.br
+          </a>
+        </div>
+
         <div class="cta">👈 Escolha uma categoria ao lado</div>
       </div>
+
     </div>
     <iframe id="contentFrame" src="" style="display:none;"></iframe>
   </div>
