@@ -1,6 +1,10 @@
+<!DOCTYPE html>
 <html xmlns:o="urn:schemas-microsoft-com:office:office"
 xmlns:x="urn:schemas-microsoft-com:office:excel"
 xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 /* ===== RESET DO EXCEL ===== */
@@ -10,7 +14,6 @@ body {
   background: #fff !important;
 }
 
-/* Esconde menu de baixo, scrollbar do Excel e tabstrip */
 [id*="tab"], [id*="Tab"],
 [class*="tab"], [class*="Tab"],
 .MsoNormalTable,
@@ -18,7 +21,7 @@ br {
   display: none !important; 
 }
 
-/* ===== TABELA ===== */
+/* ===== TABELA (DESKTOP) ===== */
 table {
   border-collapse: collapse !important;
   width: 100% !important;
@@ -26,7 +29,6 @@ table {
   position: static !important;
 }
 
-/* Remove posicionamento absoluto que o Excel usa */
 td, th {
   position: static !important;
   font-family: 'Segoe UI', Arial, sans-serif !important;
@@ -34,7 +36,7 @@ td, th {
   padding: 7px 14px !important;
   border: none !important;
   border-bottom: 1px solid #e5e7eb !important;
-  white-space: nowrap !important;
+  white-space: nowrap !important; /* No PC, mantém em uma linha */
   vertical-align: middle !important;
 }
 
@@ -51,118 +53,79 @@ tr:first-child td {
 }
 
 /* ===== LINHAS ZEBRADAS ===== */
-tr:nth-child(even) td {
-  background: #f8fafc !important;
+tr:nth-child(even) td { background: #f8fafc !important; }
+tr:hover td { background: #eff6ff !important; }
+
+/* ===== COLUNAS ESPECÍFICAS (DESKTOP) ===== */
+td:nth-child(1) { min-width: 320px !important; }
+td:nth-child(2) { min-width: 100px !important; text-align: right !important; }
+td:nth-child(3) { min-width: 90px !important; text-align: right !important; }
+td:nth-child(4) { min-width: 140px !important; text-align: right !important; color: #1d4ed8 !important; font-weight: 600 !important; }
+td:nth-child(5) { min-width: 130px !important; text-align: right !important; color: #059669 !important; font-weight: 600 !important; }
+
+/* ===== AJUSTES PARA CELULAR (ENQUADRAMENTO AUTOMÁTICO) ===== */
+@media (max-width: 768px) {
+  body {
+    margin: 8px !important;
+  }
+
+  table {
+    table-layout: fixed !important; /* Força a tabela a respeitar o limite da tela */
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  td, th {
+    white-space: normal !important; /* Permite que o texto quebre em várias linhas */
+    word-wrap: break-word !important;
+    padding: 8px 4px !important; /* Reduz o espaçamento interno */
+    font-size: 11px !important; /* Reduz a fonte para caber melhor */
+    vertical-align: top !important; /* Alinha o texto no topo quando a linha cresce */
+  }
+
+  /* Redefine as larguras para porcentagens da tela do celular */
+  td:nth-child(1) { width: 36% !important; min-width: auto !important; } /* Descrição ganha mais espaço */
+  td:nth-child(2) { width: 14% !important; min-width: auto !important; } /* Peso Total */
+  td:nth-child(3) { width: 14% !important; min-width: auto !important; } /* Peso CT */
+  td:nth-child(4) { width: 18% !important; min-width: auto !important; } /* ICMS 18% */
+  td:nth-child(5) { width: 18% !important; min-width: auto !important; } /* ICMS 4% */
 }
-
-tr:hover td {
-  background: #eff6ff !important;
-}
-
-/* ===== COLUNAS ESPECÍFICAS ===== */
-
-/* DESCRICAO — coluna 1 */
-td:nth-child(1) {
-  min-width: 320px !important;
-  max-width: 480px !important;
-  white-space: nowrap !important;
-}
-
-/* PESO TOTAL — coluna 2 */
-td:nth-child(2) {
-  min-width: 100px !important;
-  text-align: right !important;
-}
-
-/* PESO CT — coluna 3 */
-td:nth-child(3) {
-  min-width: 90px !important;
-  text-align: right !important;
-}
-
-/* R$ ICMS 18% — coluna 4 */
-td:nth-child(4) {
-  min-width: 140px !important;
-  text-align: right !important;
-  color: #1d4ed8 !important;
-  font-weight: 600 !important;
-}
-
-/* R$ ICMS 4% — coluna 5 */
-td:nth-child(5) {
-  min-width: 130px !important;
-  text-align: right !important;
-  color: #059669 !important;
-  font-weight: 600 !important;
-}
-
-/* ===== SCROLLBAR DISCRETA ===== */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #c1c9d2; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
 </style>
+</head>
 <body>
-<!--[if !excel]>&nbsp;&nbsp;<![endif]-->
-<!--As seguintes informa  es foram geradas pelo Assistente para Publica  o como
-P gina da Web do Microsoft Excel.-->
-<!--Se o mesmo item for republicado a partir do Excel, todas as informa  es
-entre as marcas DIV ser o substitu das.-->
-<!----------------------------->
-<!--IN CIO DA SA DA DO 'ASSISTENTE PARA PUBLICA  O COMO P GINA DA WEB' DO EXCEL
--->
-<!----------------------------->
 
-<div id="PARA LINK ACAO CURVA C_23939" align=center x:publishsource="Excel">
+<div id="PARA LINK ACAO CURVA C_23939" align="center" x:publishsource="Excel">
 
-<table border=0 cellpadding=0 cellspacing=0 width=665 style='border-collapse:
- collapse;table-layout:fixed;width:499pt'>
- <col width=245 style='mso-width-source:userset;mso-width-alt:7840;width:184pt'>
- <col width=111 style='mso-width-source:userset;mso-width-alt:3552;width:83pt'>
- <col width=65 style='mso-width-source:userset;mso-width-alt:2080;width:49pt'>
- <col width=156 style='mso-width-source:userset;mso-width-alt:4992;width:117pt'>
- <col width=88 style='width:66pt'>
+<table border=0 cellpadding=0 cellspacing=0 width=665 style='border-collapse:collapse;table-layout:fixed;width:499pt'>
  <tr height=21 style='height:15.75pt'>
   <td height=21 class=xl6823939 width=245 style='height:15.75pt;width:184pt'>DESCRICAO</td>
   <td class=xl6823939 width=111 style='width:83pt'>PESO TOTAL</td>
   <td class=xl6823939 width=65 style='width:49pt'>PESO CT</td>
-  <td class=xl6923939 width=156 style='width:117pt'><span
-  style='mso-spacerun:yes'> </span>R$ ICMS 18%<span
-  style='mso-spacerun:yes'> </span></td>
-  <td class=xl6923939 width=88 style='width:66pt'><span
-  style='mso-spacerun:yes'> </span>R$ ICMS 4%<span
-  style='mso-spacerun:yes'> </span></td>
+  <td class=xl6923939 width=156 style='width:117pt'>R$ ICMS 18%</td>
+  <td class=xl6923939 width=88 style='width:66pt'>R$ ICMS 4%</td>
  </tr>
  <tr height=21 style='height:15.75pt'>
-  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 6916
-  M36 GF</td>
+  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 6916 M36 GF</td>
   <td class=xl6723939>433</td>
   <td class=xl6623939>9,1</td>
-  <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>                            </span>163,80 </td>
+  <td class=xl6523939>R$ 163,80</td>
   <td class=xl7123939></td>
  </tr>
  <tr height=21 style='height:15.75pt'>
-  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M27
-  GF IMP.</td>
+  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M27 GF IMP.</td>
   <td class=xl6723939>1.560</td>
   <td class=xl6623939>33,23</td>
-  <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>                            </span>598,14 </td>
-  <td class=xl7123939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>     </span>510,99 </td>
+  <td class=xl6523939>R$ 598,14</td>
+  <td class=xl7123939>R$ 510,99</td>
  </tr>
  <tr height=21 style='height:15.75pt'>
-  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M30
-  GF IMP.</td>
+  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M30 GF IMP.</td>
   <td class=xl6723939>2.389</td>
   <td class=xl6623939>24,5</td>
-  <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>                            </span>441,00 </td>
-  <td class=xl7123939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>     </span>376,75 </td>
+  <td class=xl6523939>R$ 441,00</td>
+  <td class=xl7123939>R$ 376,75</td>
  </tr>
- <![if supportMisalignedColumns]>
+ <!--[if supportMisalignedColumns]-->
  <tr height=0 style='display:none'>
   <td width=245 style='width:184pt'></td>
   <td width=111 style='width:83pt'></td>
@@ -170,15 +133,10 @@ entre as marcas DIV ser o substitu das.-->
   <td width=156 style='width:117pt'></td>
   <td width=88 style='width:66pt'></td>
  </tr>
- <![endif]>
+ <!--[endif]-->
 </table>
 
 </div>
 
-
-<!----------------------------->
-<!--FIM DA SA DA DO 'ASSISTENTE PARA PUBLICA  O COMO P GINA DA WEB' DO EXCEL-->
-<!----------------------------->
 </body>
-
 </html>
