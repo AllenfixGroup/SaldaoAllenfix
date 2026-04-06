@@ -1,6 +1,11 @@
+<!DOCTYPE html>
 <html xmlns:o="urn:schemas-microsoft-com:office:office"
 xmlns:x="urn:schemas-microsoft-com:office:excel"
 xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="UTF-8">
+<!-- Tag essencial para responsividade no celular -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 /* ===== RESET DO EXCEL ===== */
@@ -18,12 +23,22 @@ br {
   display: none !important; 
 }
 
+/* ===== CONTÊINER RESPONSIVO (NOVO) ===== */
+.table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Sombra leve opcional */
+}
+
 /* ===== TABELA ===== */
 table {
   border-collapse: collapse !important;
   width: 100% !important;
   table-layout: auto !important;
   position: static !important;
+  min-width: 700px !important; /* Garante que a tabela não seja esmagada */
 }
 
 /* Remove posicionamento absoluto que o Excel usa */
@@ -60,29 +75,28 @@ tr:hover td {
 }
 
 /* ===== COLUNAS ESPECÍFICAS ===== */
-
 /* DESCRICAO — coluna 1 */
 td:nth-child(1) {
-  min-width: 320px !important;
+  min-width: 280px !important;
   max-width: 480px !important;
   white-space: nowrap !important;
 }
 
 /* PESO TOTAL — coluna 2 */
 td:nth-child(2) {
-  min-width: 100px !important;
+  min-width: 90px !important;
   text-align: right !important;
 }
 
 /* PESO CT — coluna 3 */
 td:nth-child(3) {
-  min-width: 90px !important;
+  min-width: 80px !important;
   text-align: right !important;
 }
 
 /* R$ ICMS 18% — coluna 4 */
 td:nth-child(4) {
-  min-width: 140px !important;
+  min-width: 120px !important;
   text-align: right !important;
   color: #1d4ed8 !important;
   font-weight: 600 !important;
@@ -90,7 +104,7 @@ td:nth-child(4) {
 
 /* R$ ICMS 4% — coluna 5 */
 td:nth-child(5) {
-  min-width: 130px !important;
+  min-width: 120px !important;
   text-align: right !important;
   color: #059669 !important;
   font-weight: 600 !important;
@@ -101,84 +115,72 @@ td:nth-child(5) {
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb { background: #c1c9d2; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+/* ===== AJUSTES PARA CELULAR (NOVO) ===== */
+@media (max-width: 768px) {
+  body {
+    margin: 8px !important;
+  }
+  td, th {
+    padding: 8px 10px !important; /* Reduz o espaçamento interno */
+    font-size: 12px !important; /* Fonte ligeiramente menor */
+  }
+}
 </style>
+</head>
 <body>
-<!--[if !excel]>&nbsp;&nbsp;<![endif]-->
-<!--As seguintes informa  es foram geradas pelo Assistente para Publica  o como
-P gina da Web do Microsoft Excel.-->
-<!--Se o mesmo item for republicado a partir do Excel, todas as informa  es
-entre as marcas DIV ser o substitu das.-->
-<!----------------------------->
-<!--IN CIO DA SA DA DO 'ASSISTENTE PARA PUBLICA  O COMO P GINA DA WEB' DO EXCEL
--->
-<!----------------------------->
 
-<div id="PARA LINK ACAO CURVA C_23939" align=center x:publishsource="Excel">
+<!-- Envolvemos a div original do Excel neste novo contêiner responsivo -->
+<div class="table-responsive-wrapper">
+  <div id="PARA LINK ACAO CURVA C_23939" align="center" x:publishsource="Excel">
 
-<table border=0 cellpadding=0 cellspacing=0 width=665 style='border-collapse:
- collapse;table-layout:fixed;width:499pt'>
- <col width=245 style='mso-width-source:userset;mso-width-alt:7840;width:184pt'>
- <col width=111 style='mso-width-source:userset;mso-width-alt:3552;width:83pt'>
- <col width=65 style='mso-width-source:userset;mso-width-alt:2080;width:49pt'>
- <col width=156 style='mso-width-source:userset;mso-width-alt:4992;width:117pt'>
- <col width=88 style='width:66pt'>
- <tr height=21 style='height:15.75pt'>
-  <td height=21 class=xl6823939 width=245 style='height:15.75pt;width:184pt'>DESCRICAO</td>
-  <td class=xl6823939 width=111 style='width:83pt'>PESO TOTAL</td>
-  <td class=xl6823939 width=65 style='width:49pt'>PESO CT</td>
-  <td class=xl6923939 width=156 style='width:117pt'><span
-  style='mso-spacerun:yes'> </span>R$ ICMS 18%<span
-  style='mso-spacerun:yes'> </span></td>
-  <td class=xl6923939 width=88 style='width:66pt'><span
-  style='mso-spacerun:yes'> </span>R$ ICMS 4%<span
-  style='mso-spacerun:yes'> </span></td>
- </tr>
- <tr height=21 style='height:15.75pt'>
-  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 6916
-  M36 GF</td>
-  <td class=xl6723939>433</td>
-  <td class=xl6623939>9,1</td>
-  <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>                            </span>163,80 </td>
-  <td class=xl7123939></td>
- </tr>
- <tr height=21 style='height:15.75pt'>
-  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M27
-  GF IMP.</td>
-  <td class=xl6723939>1.560</td>
-  <td class=xl6623939>33,23</td>
-  <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>                            </span>598,14 </td>
-  <td class=xl7123939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>     </span>510,99 </td>
- </tr>
- <tr height=21 style='height:15.75pt'>
-  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M30
-  GF IMP.</td>
-  <td class=xl6723939>2.389</td>
-  <td class=xl6623939>24,5</td>
-  <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>                            </span>441,00 </td>
-  <td class=xl7123939><span style='mso-spacerun:yes'> </span>R$<span
-  style='mso-spacerun:yes'>     </span>376,75 </td>
- </tr>
- <![if supportMisalignedColumns]>
- <tr height=0 style='display:none'>
-  <td width=245 style='width:184pt'></td>
-  <td width=111 style='width:83pt'></td>
-  <td width=65 style='width:49pt'></td>
-  <td width=156 style='width:117pt'></td>
-  <td width=88 style='width:66pt'></td>
- </tr>
- <![endif]>
-</table>
+  <table border=0 cellpadding=0 cellspacing=0 width=665 style='border-collapse:collapse;table-layout:fixed;width:499pt'>
+   <col width=245 style='mso-width-source:userset;mso-width-alt:7840;width:184pt'>
+   <col width=111 style='mso-width-source:userset;mso-width-alt:3552;width:83pt'>
+   <col width=65 style='mso-width-source:userset;mso-width-alt:2080;width:49pt'>
+   <col width=156 style='mso-width-source:userset;mso-width-alt:4992;width:117pt'>
+   <col width=88 style='width:66pt'>
+   <tr height=21 style='height:15.75pt'>
+    <td height=21 class=xl6823939 width=245 style='height:15.75pt;width:184pt'>DESCRICAO</td>
+    <td class=xl6823939 width=111 style='width:83pt'>PESO TOTAL</td>
+    <td class=xl6823939 width=65 style='width:49pt'>PESO CT</td>
+    <td class=xl6923939 width=156 style='width:117pt'><span style='mso-spacerun:yes'> </span>R$ ICMS 18%<span style='mso-spacerun:yes'> </span></td>
+    <td class=xl6923939 width=88 style='width:66pt'><span style='mso-spacerun:yes'> </span>R$ ICMS 4%<span style='mso-spacerun:yes'> </span></td>
+   </tr>
+   <tr height=21 style='height:15.75pt'>
+    <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 6916 M36 GF</td>
+    <td class=xl6723939>433</td>
+    <td class=xl6623939>9,1</td>
+    <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>                            </span>163,80 </td>
+    <td class=xl7123939></td>
+   </tr>
+   <tr height=21 style='height:15.75pt'>
+    <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M27 GF IMP.</td>
+    <td class=xl6723939>1.560</td>
+    <td class=xl6623939>33,23</td>
+    <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>                            </span>598,14 </td>
+    <td class=xl7123939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>     </span>510,99 </td>
+   </tr>
+   <tr height=21 style='height:15.75pt'>
+    <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M30 GF IMP.</td>
+    <td class=xl6723939>2.389</td>
+    <td class=xl6623939>24,5</td>
+    <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>                            </span>441,00 </td>
+    <td class=xl7123939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>     </span>376,75 </td>
+   </tr>
+   <!--[if supportMisalignedColumns]-->
+   <tr height=0 style='display:none'>
+    <td width=245 style='width:184pt'></td>
+    <td width=111 style='width:83pt'></td>
+    <td width=65 style='width:49pt'></td>
+    <td width=156 style='width:117pt'></td>
+    <td width=88 style='width:66pt'></td>
+   </tr>
+   <!--[endif]-->
+  </table>
 
+  </div>
 </div>
 
-
-<!----------------------------->
-<!--FIM DA SA DA DO 'ASSISTENTE PARA PUBLICA  O COMO P GINA DA WEB' DO EXCEL-->
-<!----------------------------->
 </body>
-
 </html>
