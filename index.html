@@ -15,6 +15,15 @@
     overflow: hidden;
   }
 
+  /* Overlay escuro para celular quando o menu abre */
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 999;
+  }
+
   nav {
     width: 240px;
     min-width: 240px;
@@ -23,6 +32,8 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    z-index: 1000;
+    transition: transform 0.3s ease;
   }
 
   .nav-header {
@@ -118,6 +129,7 @@
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
+    position: relative;
   }
 
   .topbar {
@@ -128,12 +140,26 @@
     align-items: center;
     gap: 10px;
   }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #1a2332;
+    cursor: pointer;
+    padding: 0 5px;
+  }
+
   .topbar-icon { font-size: 22px; line-height: 1; }
   .topbar h3 {
     font-size: 15px;
     font-weight: 600;
     color: #1a2332;
     flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .badge {
     font-size: 11px;
@@ -289,23 +315,36 @@
     50%       { box-shadow: 0 4px 32px rgba(245,158,11,0.85); }
   }
 
-  /* ===== RESPONSIVIDADE (CELULAR) ===== */
+  /* ===== RESPONSIVIDADE (MENU HAMBÚRGUER) ===== */
   @media (max-width: 768px) {
-    body {
-      flex-direction: column; /* Empilha o menu e o conteúdo */
+    .menu-toggle {
+      display: block; /* Mostra o botão de menu */
     }
 
     nav {
-      width: 100%;
-      min-width: 100%;
-      height: 45vh; /* Menu ocupa 45% da tela */
+      position: fixed;
+      left: 0;
+      top: 0;
+      transform: translateX(-100%); /* Esconde o menu fora da tela */
+      box-shadow: 4px 0 15px rgba(0,0,0,0.3);
     }
 
-    .content {
-      height: 55vh; /* Fundo bonito ocupa 55% da tela */
+    nav.open {
+      transform: translateX(0); /* Traz o menu para a tela */
     }
 
-    /* Ajustes de fonte para caber bem no celular */
+    .mobile-overlay.open {
+      display: block; /* Mostra o fundo escuro */
+    }
+
+    .topbar {
+      padding: 10px 15px;
+    }
+
+    .frame-wrapper {
+      margin: 8px;
+    }
+
     .welcome-text h1 { font-size: 28px; }
     .welcome-text .sub { font-size: 13px; }
     .email-link { font-size: 15px; }
@@ -315,7 +354,10 @@
 </head>
 <body>
 
-<nav>
+<!-- Fundo escuro que aparece atrás do menu no celular -->
+<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMenu()"></div>
+
+<nav id="sidebar">
   <div class="nav-header">
     <span>Tabela de Preços</span>
     <h2>🔩 Catálogo Geral</h2>
@@ -351,5 +393,101 @@
     <li><button onclick="loadSheet(this,'src/po_trav_nylon.html','PO TRAV NYLON','⚙️')">
       <span class="ico">⚙️</span> PO TRAV NYLON</button></li>
     <li><button onclick="loadSheet(this,'src/arr_din_125_gf.html','ARR DIN 125 GF','⭕')">
-      <span class="ico">⭕</span> ARR DIN 125 GF
+      <span class="ico">⭕</span> ARR DIN 125 GF</button></li>
+    <li><button onclick="loadSheet(this,'src/chumb_cb.html','CHUMB CB','🔨')">
+      <span class="ico">🔨</span> CHUMB CB</button></li>
+    <li><button onclick="loadSheet(this,'src/chumb_cb_gf.html','CHUMB CB GF','🔨')">
+      <span class="ico">🔨</span> CHUMB CB GF</button></li>
+    <li><button onclick="loadSheet(this,'src/jaq_e_cone.html','JAQ E CONE','🔨')">
+      <span class="ico">🔨</span> JAQ E CONE</button></li>
+    <li><button onclick="loadSheet(this,'src/chumb_tb.html','CHUMB TB','🔨')">
+      <span class="ico">🔨</span> CHUMB TB</button></li>
+    <li><button onclick="loadSheet(this,'src/inox_304.html','INOX 304','✨')">
+      <span class="ico">✨</span> INOX 304</button></li>
+    <li><button onclick="loadSheet(this,'src/brocante_zb.html','BROCANTE ZB','🔩')">
+      <span class="ico">🔩</span> BROCANTE ZB</button></li>
+  </ul>
 
+  <div class="nav-footer">Atualizado em Abril / 2026</div>
+</nav>
+
+<div class="content">
+  <div class="topbar">
+    <!-- Botão Hambúrguer (só aparece no celular) -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+    <span class="topbar-icon" id="topbarIcon">📋</span>
+    <h3 id="currentTitle">Selecione uma categoria</h3>
+    <span class="badge" id="currentBadge">18 categorias</span>
+  </div>
+
+  <div class="frame-wrapper">
+    <div class="welcome" id="welcomeScreen">
+
+      <img class="welcome-bg" src="src/fundosite.jpeg" alt="Fundo Allenfix">
+      <div class="welcome-overlay"></div>
+
+      <div class="welcome-text">
+        <div class="tag">🔥 Oferta Especial</div>
+        <h1>MEGA SALDÃO<br><span>ALLENFIX GROUP</span></h1>
+        <p class="sub">
+          Tabela de preços dos itens promocionais<br>
+          Parafusos · Porcas · Arruelas · Fixadores · Inox
+        </p>
+
+        <div class="email-box">
+          <span class="email-label">📧 Solicitação de compra através</span>
+          <a href="mailto:comercial@allenfixgroup.com.br" class="email-link">
+            comercial@allenfixgroup.com.br
+          </a>
+        </div>
+
+        <div class="cta">👈 Escolha uma categoria no menu</div>
+      </div>
+
+    </div>
+    <iframe id="contentFrame" src="" style="display:none;"></iframe>
+  </div>
+</div>
+
+<script>
+  let activeBtn = null;
+
+  // Função para abrir/fechar o menu no celular
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('mobileOverlay').classList.toggle('open');
+  }
+
+  function loadSheet(btn, file, title, icon) {
+    if (activeBtn) activeBtn.classList.remove('active');
+    btn.classList.add('active');
+    activeBtn = btn;
+
+    document.getElementById('currentTitle').textContent = title;
+    document.getElementById('topbarIcon').textContent = icon;
+    document.getElementById('currentBadge').textContent = 'Preços';
+
+    document.getElementById('welcomeScreen').style.display = 'none';
+    const frame = document.getElementById('contentFrame');
+    frame.style.display = 'block';
+    frame.src = file;
+
+    // Se estiver no celular, fecha o menu automaticamente após o clique
+    if (window.innerWidth <= 768) {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('mobileOverlay').classList.remove('open');
+    }
+  }
+
+  function filterNav(query) {
+    const q = query.toLowerCase();
+    document.querySelectorAll('#navList li').forEach(li => {
+      const txt = li.querySelector('button').textContent.toLowerCase();
+      li.classList.toggle('hidden', !txt.includes(q));
+    });
+  }
+</script>
+
+</body>
+</html>
