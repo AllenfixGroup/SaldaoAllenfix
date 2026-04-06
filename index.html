@@ -291,20 +291,25 @@
 
   /* ===== RESPONSIVIDADE (CELULAR) ===== */
   @media (max-width: 768px) {
+    body {
+      flex-direction: column; /* Empilha o menu e o conteúdo */
+    }
+
     nav {
       width: 100%;
       min-width: 100%;
+      height: 45vh; /* Menu ocupa 45% da tela */
     }
 
-    /* Esconde a área do iframe no celular, pois o menu será a tela principal */
     .content {
-      display: none;
+      height: 55vh; /* Fundo bonito ocupa 55% da tela */
     }
 
-    .nav-list li button {
-      padding: 14px 16px; /* Aumenta a área de clique para o dedo */
-      font-size: 14px;
-    }
+    /* Ajustes de fonte para caber bem no celular */
+    .welcome-text h1 { font-size: 28px; }
+    .welcome-text .sub { font-size: 13px; }
+    .email-link { font-size: 15px; }
+    .welcome-text .cta { font-size: 11px; padding: 8px 20px; }
   }
 </style>
 </head>
@@ -346,94 +351,5 @@
     <li><button onclick="loadSheet(this,'src/po_trav_nylon.html','PO TRAV NYLON','⚙️')">
       <span class="ico">⚙️</span> PO TRAV NYLON</button></li>
     <li><button onclick="loadSheet(this,'src/arr_din_125_gf.html','ARR DIN 125 GF','⭕')">
-      <span class="ico">⭕</span> ARR DIN 125 GF</button></li>
-    <li><button onclick="loadSheet(this,'src/chumb_cb.html','CHUMB CB','🔨')">
-      <span class="ico">🔨</span> CHUMB CB</button></li>
-    <li><button onclick="loadSheet(this,'src/chumb_cb_gf.html','CHUMB CB GF','🔨')">
-      <span class="ico">🔨</span> CHUMB CB GF</button></li>
-    <li><button onclick="loadSheet(this,'src/jaq_e_cone.html','JAQ E CONE','🔨')">
-      <span class="ico">🔨</span> JAQ E CONE</button></li>
-    <li><button onclick="loadSheet(this,'src/chumb_tb.html','CHUMB TB','🔨')">
-      <span class="ico">🔨</span> CHUMB TB</button></li>
-    <li><button onclick="loadSheet(this,'src/inox_304.html','INOX 304','✨')">
-      <span class="ico">✨</span> INOX 304</button></li>
-    <li><button onclick="loadSheet(this,'src/brocante_zb.html','BROCANTE ZB','🔩')">
-      <span class="ico">🔩</span> BROCANTE ZB</button></li>
-  </ul>
+      <span class="ico">⭕</span> ARR DIN 125 GF
 
-  <div class="nav-footer">Atualizado em Abril / 2026</div>
-</nav>
-
-<div class="content">
-  <div class="topbar">
-    <span class="topbar-icon" id="topbarIcon">📋</span>
-    <h3 id="currentTitle">Selecione uma categoria</h3>
-    <span class="badge" id="currentBadge">18 categorias</span>
-  </div>
-
-  <div class="frame-wrapper">
-    <div class="welcome" id="welcomeScreen">
-
-      <img class="welcome-bg" src="src/fundosite.jpeg" alt="Fundo Allenfix">
-      <div class="welcome-overlay"></div>
-
-      <div class="welcome-text">
-        <div class="tag">🔥 Oferta Especial</div>
-        <h1>MEGA SALDÃO<br><span>ALLENFIX GROUP</span></h1>
-        <p class="sub">
-          Tabela de preços dos itens promocionais<br>
-          Parafusos · Porcas · Arruelas · Fixadores · Inox
-        </p>
-
-        <div class="email-box">
-          <span class="email-label">📧 Solicitação de compra através</span>
-          <a href="mailto:comercial@allenfixgroup.com.br" class="email-link">
-            comercial@allenfixgroup.com.br
-          </a>
-        </div>
-
-        <div class="cta">👈 Escolha uma categoria ao lado</div>
-      </div>
-
-    </div>
-    <iframe id="contentFrame" src="" style="display:none;"></iframe>
-  </div>
-</div>
-
-<script>
-  let activeBtn = null;
-
-  function loadSheet(btn, file, title, icon) {
-    // Verifica se é tela de celular (largura menor ou igual a 768px)
-    if (window.innerWidth <= 768) {
-      // Redireciona diretamente para a página da tabela
-      window.location.href = file;
-      return; // Para a execução da função aqui
-    }
-
-    // Comportamento normal para Computador (Iframe)
-    if (activeBtn) activeBtn.classList.remove('active');
-    btn.classList.add('active');
-    activeBtn = btn;
-
-    document.getElementById('currentTitle').textContent = title;
-    document.getElementById('topbarIcon').textContent = icon;
-    document.getElementById('currentBadge').textContent = 'Preços';
-
-    document.getElementById('welcomeScreen').style.display = 'none';
-    const frame = document.getElementById('contentFrame');
-    frame.style.display = 'block';
-    frame.src = file;
-  }
-
-  function filterNav(query) {
-    const q = query.toLowerCase();
-    document.querySelectorAll('#navList li').forEach(li => {
-      const txt = li.querySelector('button').textContent.toLowerCase();
-      li.classList.toggle('hidden', !txt.includes(q));
-    });
-  }
-</script>
-
-</body>
-</html>
