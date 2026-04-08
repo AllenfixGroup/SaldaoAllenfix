@@ -1,158 +1,142 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tabela de Preços</title>
+
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ===== RESET DO EXCEL ===== */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+  margin: 16px !important;
+  background: #fff !important;
+}
 
+[id*="tab"], [id*="Tab"],
+[class*="tab"], [class*="Tab"],
+.MsoNormalTable,
+br { 
+  display: none !important; 
+}
+
+/* ===== TABELA (DESKTOP) ===== */
+table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  table-layout: auto !important;
+  position: static !important;
+}
+
+td, th {
+  position: static !important;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  padding: 7px 14px !important;
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  white-space: nowrap !important; /* No PC, mantém em uma linha */
+  vertical-align: middle !important;
+}
+
+/* ===== CABEÇALHO ===== */
+tr:first-child td {
+  background: #1a2332 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
+  border: 1px solid #2d3f55 !important;
+  padding: 10px 14px !important;
+}
+
+/* ===== LINHAS ZEBRADAS ===== */
+tr:nth-child(even) td { background: #f8fafc !important; }
+tr:hover td { background: #eff6ff !important; }
+
+/* ===== COLUNAS ESPECÍFICAS (DESKTOP) ===== */
+td:nth-child(1) { min-width: 320px !important; }
+td:nth-child(2) { min-width: 100px !important; text-align: right !important; }
+td:nth-child(3) { min-width: 90px !important; text-align: right !important; }
+td:nth-child(4) { min-width: 140px !important; text-align: right !important; color: #1d4ed8 !important; font-weight: 600 !important; }
+td:nth-child(5) { min-width: 130px !important; text-align: right !important; color: #059669 !important; font-weight: 600 !important; }
+
+/* ===== AJUSTES PARA CELULAR (ENQUADRAMENTO AUTOMÁTICO) ===== */
+@media (max-width: 768px) {
   body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f0f2f5;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
+    margin: 8px !important;
   }
 
-  /* Overlay escuro para celular quando o menu abre */
-  .mobile-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    z-index: 999;
+  table {
+    table-layout: fixed !important; /* Força a tabela a respeitar o limite da tela */
+    width: 100% !important;
+    min-width: 100% !important;
   }
 
-  nav {
-    width: 240px;
-    min-width: 240px;
-    background: #1a2332;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    z-index: 1000;
-    transition: transform 0.3s ease;
+  td, th {
+    white-space: normal !important; /* Permite que o texto quebre em várias linhas */
+    word-wrap: break-word !important;
+    padding: 8px 4px !important; /* Reduz o espaçamento interno */
+    font-size: 11px !important; /* Reduz a fonte para caber melhor */
+    vertical-align: top !important; /* Alinha o texto no topo quando a linha cresce */
   }
 
-  .nav-header {
-    padding: 18px 16px 14px;
-    border-bottom: 1px solid #2d3f55;
-  }
-  .nav-header span {
-    font-size: 11px;
-    text-transform: uppercase;
-    color: #7c8fa6;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 4px;
-  }
-  .nav-header h2 {
-    font-size: 16px;
-    font-weight: 700;
-  }
+  /* Redefine as larguras para porcentagens da tela do celular */
+  td:nth-child(1) { width: 36% !important; min-width: auto !important; } /* Descrição ganha mais espaço */
+  td:nth-child(2) { width: 14% !important; min-width: auto !important; } /* Peso Total */
+  td:nth-child(3) { width: 14% !important; min-width: auto !important; } /* Peso CT */
+  td:nth-child(4) { width: 18% !important; min-width: auto !important; } /* ICMS 18% */
+  td:nth-child(5) { width: 18% !important; min-width: auto !important; } /* ICMS 4% */
+}
+</style>
+</head>
+<body>
 
-  .nav-search {
-    padding: 10px 12px;
-    border-bottom: 1px solid #2d3f55;
-  }
-  .nav-search input {
-    width: 100%;
-    background: #243044;
-    border: 1px solid #2d3f55;
-    border-radius: 6px;
-    color: #fff;
-    font-size: 12px;
-    padding: 7px 10px 7px 30px;
-    outline: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237c8fa6' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: 9px center;
-  }
-  .nav-search input::placeholder { color: #6b7f96; }
-  .nav-search input:focus { border-color: #3b82f6; }
+<div id="PARA LINK ACAO CURVA C_23939" align="center" x:publishsource="Excel">
 
-  .nav-list {
-    list-style: none;
-    flex: 1;
-    overflow-y: auto;
-    padding: 6px 0;
-  }
-  .nav-list::-webkit-scrollbar { width: 3px; }
-  .nav-list::-webkit-scrollbar-thumb { background: #2d3f55; border-radius: 4px; }
+<table border=0 cellpadding=0 cellspacing=0 width=665 style='border-collapse:collapse;table-layout:fixed;width:499pt'>
+ <tr height=21 style='height:15.75pt'>
+  <td height=21 class=xl6823939 width=245 style='height:15.75pt;width:184pt'>DESCRICAO</td>
+  <td class=xl6823939 width=111 style='width:83pt'>PESO TOTAL</td>
+  <td class=xl6823939 width=65 style='width:49pt'>PESO CT</td>
+  <td class=xl6923939 width=156 style='width:117pt'>R$ ICMS 18%</td>
+  <td class=xl6923939 width=88 style='width:66pt'>R$ ICMS 4%</td>
+ </tr>
+ <tr height=21 style='height:15.75pt'>
+  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 6916 M36 GF</td>
+  <td class=xl6723939>433</td>
+  <td class=xl6623939>9,1</td>
+  <td class=xl6523939>R$ 163,80</td>
+  <td class=xl7123939></td>
+ </tr>
+ <tr height=21 style='height:15.75pt'>
+  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M27 GF IMP.</td>
+  <td class=xl6723939>1.560</td>
+  <td class=xl6623939>33,23</td>
+  <td class=xl6523939>R$ 598,14</td>
+  <td class=xl7123939>R$ 510,99</td>
+ </tr>
+ <tr height=21 style='height:15.75pt'>
+  <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M30 GF IMP.</td>
+  <td class=xl6723939>2.389</td>
+  <td class=xl6623939>24,5</td>
+  <td class=xl6523939>R$ 441,00</td>
+  <td class=xl7123939>R$ 376,75</td>
+ </tr>
+ <!--[if supportMisalignedColumns]-->
+ <tr height=0 style='display:none'>
+  <td width=245 style='width:184pt'></td>
+  <td width=111 style='width:83pt'></td>
+  <td width=65 style='width:49pt'></td>
+  <td width=156 style='width:117pt'></td>
+  <td width=88 style='width:66pt'></td>
+ </tr>
+ <!--[endif]-->
+</table>
 
-  .nav-list li button {
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    color: #9ab0c8;
-    font-size: 12px;
-    padding: 8px 14px;
-    cursor: pointer;
-    border-left: 3px solid transparent;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.15s;
-  }
-  .nav-list li button .ico {
-    font-size: 15px;
-    min-width: 20px;
-    text-align: center;
-  }
-  .nav-list li button:hover {
-    background: #243044;
-    color: #fff;
-    border-left-color: #3b82f6;
-  }
-  .nav-list li button.active {
-    background: #243044;
-    color: #fff;
-    border-left-color: #3b82f6;
-    font-weight: 600;
-  }
-  .nav-list li.hidden { display: none; }
+</div>
 
-  .nav-footer {
-    padding: 10px 14px;
-    border-top: 1px solid #2d3f55;
-    font-size: 11px;
-    color: #4a6175;
-    text-align: center;
-  }
-
-  .content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .topbar {
-    background: #fff;
-    padding: 10px 20px;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #1a2332;
-    cursor: pointer;
-    padding: 0 5px;
-  }
-
-  .topbar-icon { font-size: 22px; line-height: 1; }
-  .topbar h3 {
-    font-size: 15px;
-    font-weight:
-
+</body>
+</html>
