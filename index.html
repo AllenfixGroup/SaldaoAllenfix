@@ -15,6 +15,7 @@
     overflow: hidden;
   }
 
+  /* ===== MENU LATERAL ===== */
   nav {
     width: 240px;
     min-width: 240px;
@@ -23,6 +24,7 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    transition: left 0.3s ease; /* Animação para o celular */
   }
 
   .nav-header {
@@ -112,6 +114,7 @@
     text-align: center;
   }
 
+  /* ===== CONTEÚDO PRINCIPAL ===== */
   .content {
     flex: 1;
     display: flex;
@@ -128,12 +131,27 @@
     align-items: center;
     gap: 10px;
   }
+
+  /* Botão Hambúrguer (Oculto no Desktop) */
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #1a2332;
+    padding-right: 10px;
+  }
+
   .topbar-icon { font-size: 22px; line-height: 1; }
   .topbar h3 {
     font-size: 15px;
     font-weight: 600;
     color: #1a2332;
     flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .badge {
     font-size: 11px;
@@ -270,6 +288,11 @@
     transition: color 0.2s;
   }
 
+  .email-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
   .welcome-text .cta {
     display: inline-block;
     background: #f59e0b;
@@ -289,33 +312,71 @@
     50%       { box-shadow: 0 4px 32px rgba(245,158,11,0.85); }
   }
 
+  /* Fundo escuro quando o menu abre no celular */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 99;
+  }
+
   /* ===== RESPONSIVIDADE (CELULAR) ===== */
   @media (max-width: 768px) {
-    body {
-      flex-direction: column; /* Empilha o menu e o conteúdo */
+    .menu-toggle {
+      display: block; /* Mostra o botão hambúrguer */
     }
 
     nav {
-      width: 100%;
-      min-width: 100%;
-      height: 45vh; /* Menu ocupa 45% da tela */
+      position: fixed;
+      left: -240px; /* Esconde o menu fora da tela */
+      top: 0;
+      bottom: 0;
+      z-index: 100;
     }
 
-    .content {
-      height: 55vh; /* Fundo bonito ocupa 55% da tela */
+    nav.open {
+      left: 0; /* Mostra o menu quando a classe 'open' é adicionada */
     }
 
-    /* Ajustes de fonte para caber bem no celular */
-    .welcome-text h1 { font-size: 28px; }
-    .welcome-text .sub { font-size: 13px; }
-    .email-link { font-size: 15px; }
-    .welcome-text .cta { font-size: 11px; padding: 8px 20px; }
+    .sidebar-overlay.show {
+      display: block; /* Mostra o fundo escuro */
+    }
+
+    .topbar {
+      padding: 10px 15px;
+    }
+
+    .frame-wrapper {
+      margin: 8px;
+    }
+
+    /* Ajustes de texto para caber na tela do celular */
+    .welcome-text h1 {
+      font-size: 28px;
+    }
+    .welcome-text .sub {
+      font-size: 13px;
+    }
+    .email-box {
+      padding: 12px 15px;
+    }
+    .email-link {
+      font-size: 14px;
+    }
+    .welcome-text .cta {
+      font-size: 11px;
+      padding: 8px 20px;
+    }
   }
 </style>
 </head>
 <body>
 
-<nav>
+<!-- Fundo escuro para fechar o menu ao clicar fora -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
+
+<nav id="sidebar">
   <div class="nav-header">
     <span>Tabela de Preços</span>
     <h2>🔩 Catálogo Geral</h2>
@@ -371,6 +432,9 @@
 
 <div class="content">
   <div class="topbar">
+    <!-- Botão para abrir o menu no celular -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
     <span class="topbar-icon" id="topbarIcon">📋</span>
     <h3 id="currentTitle">Selecione uma categoria</h3>
     <span class="badge" id="currentBadge">18 categorias</span>
@@ -397,7 +461,7 @@
           </a>
         </div>
 
-        <div class="cta">👈 Escolha uma categoria</div>
+        <div class="cta">👈 Escolha uma categoria ao lado</div>
       </div>
 
     </div>
@@ -408,15 +472,13 @@
 <script>
   let activeBtn = null;
 
-  function loadSheet(btn, file, title, icon) {
-    // Verifica se é tela de celular (largura menor ou igual a 768px)
-    if (window.innerWidth <= 768) {
-      // Redireciona diretamente para a página da tabela
-      window.location.href = file;
-      return; // Para a execução da função aqui
-    }
+  // Função para abrir/fechar o menu no celular
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('show');
+  }
 
-    // Comportamento normal para Computador (Iframe)
+  function loadSheet(btn, file, title, icon) {
     if (activeBtn) activeBtn.classList.remove('active');
     btn.classList.add('active');
     activeBtn = btn;
@@ -429,6 +491,11 @@
     const frame = document.getElementById('contentFrame');
     frame.style.display = 'block';
     frame.src = file;
+
+    // Fecha o menu automaticamente no celular após clicar em um item
+    if (window.innerWidth <= 768) {
+      toggleMenu();
+    }
   }
 
   function filterNav(query) {
