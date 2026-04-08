@@ -1,186 +1,444 @@
 <!DOCTYPE html>
-<html xmlns:o="urn:schemas-microsoft-com:office:office"
-xmlns:x="urn:schemas-microsoft-com:office:excel"
-xmlns="http://www.w3.org/TR/REC-html40">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<!-- Tag essencial para responsividade no celular -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Tabela de Preços</title>
 <style>
-/* ===== RESET DO EXCEL ===== */
-body {
-  font-family: 'Segoe UI', Arial, sans-serif !important;
-  margin: 16px !important;
-  background: #fff !important;
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Esconde menu de baixo, scrollbar do Excel e tabstrip */
-[id*="tab"], [id*="Tab"],
-[class*="tab"], [class*="Tab"],
-.MsoNormalTable,
-br { 
-  display: none !important; 
-}
-
-/* ===== CONTÊINER RESPONSIVO (NOVO) ===== */
-.table-responsive-wrapper {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Sombra leve opcional */
-}
-
-/* ===== TABELA ===== */
-table {
-  border-collapse: collapse !important;
-  width: 100% !important;
-  table-layout: auto !important;
-  position: static !important;
-  min-width: 700px !important; /* Garante que a tabela não seja esmagada */
-}
-
-/* Remove posicionamento absoluto que o Excel usa */
-td, th {
-  position: static !important;
-  font-family: 'Segoe UI', Arial, sans-serif !important;
-  font-size: 13px !important;
-  padding: 7px 14px !important;
-  border: none !important;
-  border-bottom: 1px solid #e5e7eb !important;
-  white-space: nowrap !important;
-  vertical-align: middle !important;
-}
-
-/* ===== CABEÇALHO ===== */
-tr:first-child td {
-  background: #1a2332 !important;
-  color: #ffffff !important;
-  font-weight: 700 !important;
-  font-size: 12px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.4px !important;
-  border: 1px solid #2d3f55 !important;
-  padding: 10px 14px !important;
-}
-
-/* ===== LINHAS ZEBRADAS ===== */
-tr:nth-child(even) td {
-  background: #f8fafc !important;
-}
-
-tr:hover td {
-  background: #eff6ff !important;
-}
-
-/* ===== COLUNAS ESPECÍFICAS ===== */
-/* DESCRICAO — coluna 1 */
-td:nth-child(1) {
-  min-width: 280px !important;
-  max-width: 480px !important;
-  white-space: nowrap !important;
-}
-
-/* PESO TOTAL — coluna 2 */
-td:nth-child(2) {
-  min-width: 90px !important;
-  text-align: right !important;
-}
-
-/* PESO CT — coluna 3 */
-td:nth-child(3) {
-  min-width: 80px !important;
-  text-align: right !important;
-}
-
-/* R$ ICMS 18% — coluna 4 */
-td:nth-child(4) {
-  min-width: 120px !important;
-  text-align: right !important;
-  color: #1d4ed8 !important;
-  font-weight: 600 !important;
-}
-
-/* R$ ICMS 4% — coluna 5 */
-td:nth-child(5) {
-  min-width: 120px !important;
-  text-align: right !important;
-  color: #059669 !important;
-  font-weight: 600 !important;
-}
-
-/* ===== SCROLLBAR DISCRETA ===== */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #c1c9d2; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
-
-/* ===== AJUSTES PARA CELULAR (NOVO) ===== */
-@media (max-width: 768px) {
   body {
-    margin: 8px !important;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
   }
-  td, th {
-    padding: 8px 10px !important; /* Reduz o espaçamento interno */
-    font-size: 12px !important; /* Fonte ligeiramente menor */
+
+  nav {
+    width: 240px;
+    min-width: 240px;
+    background: #1a2332;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
   }
-}
+
+  .nav-header {
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid #2d3f55;
+  }
+  .nav-header span {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #7c8fa6;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .nav-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .nav-search {
+    padding: 10px 12px;
+    border-bottom: 1px solid #2d3f55;
+  }
+  .nav-search input {
+    width: 100%;
+    background: #243044;
+    border: 1px solid #2d3f55;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 12px;
+    padding: 7px 10px 7px 30px;
+    outline: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237c8fa6' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 9px center;
+  }
+  .nav-search input::placeholder { color: #6b7f96; }
+  .nav-search input:focus { border-color: #3b82f6; }
+
+  .nav-list {
+    list-style: none;
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px 0;
+  }
+  .nav-list::-webkit-scrollbar { width: 3px; }
+  .nav-list::-webkit-scrollbar-thumb { background: #2d3f55; border-radius: 4px; }
+
+  .nav-list li button {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #9ab0c8;
+    font-size: 12px;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s;
+  }
+  .nav-list li button .ico {
+    font-size: 15px;
+    min-width: 20px;
+    text-align: center;
+  }
+  .nav-list li button:hover {
+    background: #243044;
+    color: #fff;
+    border-left-color: #3b82f6;
+  }
+  .nav-list li button.active {
+    background: #243044;
+    color: #fff;
+    border-left-color: #3b82f6;
+    font-weight: 600;
+  }
+  .nav-list li.hidden { display: none; }
+
+  .nav-footer {
+    padding: 10px 14px;
+    border-top: 1px solid #2d3f55;
+    font-size: 11px;
+    color: #4a6175;
+    text-align: center;
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .topbar {
+    background: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topbar-icon { font-size: 22px; line-height: 1; }
+  .topbar h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a2332;
+    flex: 1;
+  }
+  .badge {
+    font-size: 11px;
+    background: #eff6ff;
+    color: #3b82f6;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid #bfdbfe;
+    white-space: nowrap;
+  }
+
+  .frame-wrapper {
+    flex: 1;
+    margin: 12px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* ===== TELA DE BOAS-VINDAS ===== */
+  .welcome {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .welcome-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+  }
+
+  .welcome-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(10, 18, 30, 0.62);
+    z-index: 1;
+  }
+
+  .welcome-text {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 30px;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .welcome-text .tag {
+    display: inline-block;
+    background: #f59e0b;
+    color: #1a1a1a;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .welcome-text h1 {
+    font-size: 42px;
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    text-shadow: 0 3px 16px rgba(0,0,0,0.6);
+    margin-bottom: 10px;
+  }
+
+  .welcome-text h1 span {
+    color: #f59e0b;
+  }
+
+  .welcome-text .sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 20px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  .email-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.6);
+    border-radius: 12px;
+    padding: 14px 28px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(4px);
+  }
+
+  .email-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+
+  .email-link {
+    font-size: 18px;
+    font-weight: 800;
+    color: #f59e0b;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    transition: color 0.2s;
+  }
+
+  .welcome-text .cta {
+    display: inline-block;
+    background: #f59e0b;
+    color: #1a1a1a;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 10px 28px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 18px rgba(245,158,11,0.45);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 4px 18px rgba(245,158,11,0.45); }
+    50%       { box-shadow: 0 4px 32px rgba(245,158,11,0.85); }
+  }
+
+  /* ===== RESPONSIVIDADE (CELULAR) ===== */
+  @media (max-width: 768px) {
+    body {
+      flex-direction: column; /* Empilha o menu e o conteúdo */
+    }
+
+    nav {
+      width: 100%;
+      min-width: 100%;
+      height: 45vh; /* Menu ocupa 45% da tela */
+    }
+
+    .content {
+      height: 55vh; /* Fundo bonito ocupa 55% da tela */
+    }
+
+    /* Ajustes de fonte para caber bem no celular */
+    .welcome-text h1 { font-size: 28px; }
+    .welcome-text .sub { font-size: 13px; }
+    .email-link { font-size: 15px; }
+    .welcome-text .cta { font-size: 11px; padding: 8px 20px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- Envolvemos a div original do Excel neste novo contêiner responsivo -->
-<div class="table-responsive-wrapper">
-  <div id="PARA LINK ACAO CURVA C_23939" align="center" x:publishsource="Excel">
+<nav>
+  <div class="nav-header">
+    <span>Tabela de Preços</span>
+    <h2>🔩 Catálogo Geral</h2>
+  </div>
 
-  <table border=0 cellpadding=0 cellspacing=0 width=665 style='border-collapse:collapse;table-layout:fixed;width:499pt'>
-   <col width=245 style='mso-width-source:userset;mso-width-alt:7840;width:184pt'>
-   <col width=111 style='mso-width-source:userset;mso-width-alt:3552;width:83pt'>
-   <col width=65 style='mso-width-source:userset;mso-width-alt:2080;width:49pt'>
-   <col width=156 style='mso-width-source:userset;mso-width-alt:4992;width:117pt'>
-   <col width=88 style='width:66pt'>
-   <tr height=21 style='height:15.75pt'>
-    <td height=21 class=xl6823939 width=245 style='height:15.75pt;width:184pt'>DESCRICAO</td>
-    <td class=xl6823939 width=111 style='width:83pt'>PESO TOTAL</td>
-    <td class=xl6823939 width=65 style='width:49pt'>PESO CT</td>
-    <td class=xl6923939 width=156 style='width:117pt'><span style='mso-spacerun:yes'> </span>R$ ICMS 18%<span style='mso-spacerun:yes'> </span></td>
-    <td class=xl6923939 width=88 style='width:66pt'><span style='mso-spacerun:yes'> </span>R$ ICMS 4%<span style='mso-spacerun:yes'> </span></td>
-   </tr>
-   <tr height=21 style='height:15.75pt'>
-    <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 6916 M36 GF</td>
-    <td class=xl6723939>433</td>
-    <td class=xl6623939>9,1</td>
-    <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>                            </span>163,80 </td>
-    <td class=xl7123939></td>
-   </tr>
-   <tr height=21 style='height:15.75pt'>
-    <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M27 GF IMP.</td>
-    <td class=xl6723939>1.560</td>
-    <td class=xl6623939>33,23</td>
-    <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>                            </span>598,14 </td>
-    <td class=xl7123939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>     </span>510,99 </td>
-   </tr>
-   <tr height=21 style='height:15.75pt'>
-    <td height=21 class=xl7023939 style='height:15.75pt'>ARRUELA LISA DIN 125 M30 GF IMP.</td>
-    <td class=xl6723939>2.389</td>
-    <td class=xl6623939>24,5</td>
-    <td class=xl6523939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>                            </span>441,00 </td>
-    <td class=xl7123939><span style='mso-spacerun:yes'> </span>R$<span style='mso-spacerun:yes'>     </span>376,75 </td>
-   </tr>
-   <!--[if supportMisalignedColumns]-->
-   <tr height=0 style='display:none'>
-    <td width=245 style='width:184pt'></td>
-    <td width=111 style='width:83pt'></td>
-    <td width=65 style='width:49pt'></td>
-    <td width=156 style='width:117pt'></td>
-    <td width=88 style='width:66pt'></td>
-   </tr>
-   <!--[endif]-->
-  </table>
+  <div class="nav-search">
+    <input type="text" id="searchInput"
+      placeholder="Buscar categoria..."
+      oninput="filterNav(this.value)">
+  </div>
 
+  <ul class="nav-list" id="navList">
+    <li><button onclick="loadSheet(this,'src/pf_a325_et.html','PF A325 ET','🔩')">
+      <span class="ico">🔩</span> PF A325 ET</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_a325_zb.html','PF A325 ZB','🔩')">
+      <span class="ico">🔩</span> PF A325 ZB</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_a325_gf.html','PF A325 GF','🔩')">
+      <span class="ico">🔩</span> PF A325 GF</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_sx_8_8_zb.html','PF SX 8.8 ZB','🔩')">
+      <span class="ico">🔩</span> PF SX 8.8 ZB</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_gr5_et.html','PF GR5 ET','🔩')">
+      <span class="ico">🔩</span> PF GR5 ET</button></li>
+    <li><button onclick="loadSheet(this,'src/po_sx_gr2_pl.html','PO SX GR2 PL','🔧')">
+      <span class="ico">🔧</span> PO SX GR2 PL</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_sx_gr2_pl.html','PF SX GR2 PL','🔧')">
+      <span class="ico">🔧</span> PF SX GR2 PL</button></li>
+    <li><button onclick="loadSheet(this,'src/pf_gr2_zb.html','PF GR2 ZB','🔧')">
+      <span class="ico">🔧</span> PF GR2 ZB</button></li>
+    <li><button onclick="loadSheet(this,'src/po_sx_gr2_zb.html','PO SX GR2 ZB','🔧')">
+      <span class="ico">🔧</span> PO SX GR2 ZB</button></li>
+    <li><button onclick="loadSheet(this,'src/po_sx_cl8_et.html','PO SX CL8 ET','🔧')">
+      <span class="ico">🔧</span> PO SX CL8 ET</button></li>
+    <li><button onclick="loadSheet(this,'src/po_trav_nylon.html','PO TRAV NYLON','⚙️')">
+      <span class="ico">⚙️</span> PO TRAV NYLON</button></li>
+    <li><button onclick="loadSheet(this,'src/arr_din_125_gf.html','ARR DIN 125 GF','⭕')">
+      <span class="ico">⭕</span> ARR DIN 125 GF</button></li>
+    <li><button onclick="loadSheet(this,'src/chumb_cb.html','CHUMB CB','🔨')">
+      <span class="ico">🔨</span> CHUMB CB</button></li>
+    <li><button onclick="loadSheet(this,'src/chumb_cb_gf.html','CHUMB CB GF','🔨')">
+      <span class="ico">🔨</span> CHUMB CB GF</button></li>
+    <li><button onclick="loadSheet(this,'src/jaq_e_cone.html','JAQ E CONE','🔨')">
+      <span class="ico">🔨</span> JAQ E CONE</button></li>
+    <li><button onclick="loadSheet(this,'src/chumb_tb.html','CHUMB TB','🔨')">
+      <span class="ico">🔨</span> CHUMB TB</button></li>
+    <li><button onclick="loadSheet(this,'src/inox_304.html','INOX 304','✨')">
+      <span class="ico">✨</span> INOX 304</button></li>
+    <li><button onclick="loadSheet(this,'src/brocante_zb.html','BROCANTE ZB','🔩')">
+      <span class="ico">🔩</span> BROCANTE ZB</button></li>
+  </ul>
+
+  <div class="nav-footer">Atualizado em Abril / 2026</div>
+</nav>
+
+<div class="content">
+  <div class="topbar">
+    <span class="topbar-icon" id="topbarIcon">📋</span>
+    <h3 id="currentTitle">Selecione uma categoria</h3>
+    <span class="badge" id="currentBadge">18 categorias</span>
+  </div>
+
+  <div class="frame-wrapper">
+    <div class="welcome" id="welcomeScreen">
+
+      <img class="welcome-bg" src="src/fundosite.jpeg" alt="Fundo Allenfix">
+      <div class="welcome-overlay"></div>
+
+      <div class="welcome-text">
+        <div class="tag">🔥 Oferta Especial</div>
+        <h1>MEGA SALDÃO<br><span>ALLENFIX GROUP</span></h1>
+        <p class="sub">
+          Tabela de preços dos itens promocionais<br>
+          Parafusos · Porcas · Arruelas · Fixadores · Inox
+        </p>
+
+        <div class="email-box">
+          <span class="email-label">📧 Solicitação de compra através</span>
+          <a href="mailto:comercial@allenfixgroup.com.br" class="email-link">
+            comercial@allenfixgroup.com.br
+          </a>
+        </div>
+
+        <div class="cta">👈 Escolha uma categoria</div>
+      </div>
+
+    </div>
+    <iframe id="contentFrame" src="" style="display:none;"></iframe>
   </div>
 </div>
+
+<script>
+  let activeBtn = null;
+
+  function loadSheet(btn, file, title, icon) {
+    // Verifica se é tela de celular (largura menor ou igual a 768px)
+    if (window.innerWidth <= 768) {
+      // Redireciona diretamente para a página da tabela
+      window.location.href = file;
+      return; // Para a execução da função aqui
+    }
+
+    // Comportamento normal para Computador (Iframe)
+    if (activeBtn) activeBtn.classList.remove('active');
+    btn.classList.add('active');
+    activeBtn = btn;
+
+    document.getElementById('currentTitle').textContent = title;
+    document.getElementById('topbarIcon').textContent = icon;
+    document.getElementById('currentBadge').textContent = 'Preços';
+
+    document.getElementById('welcomeScreen').style.display = 'none';
+    const frame = document.getElementById('contentFrame');
+    frame.style.display = 'block';
+    frame.src = file;
+  }
+
+  function filterNav(query) {
+    const q = query.toLowerCase();
+    document.querySelectorAll('#navList li').forEach(li => {
+      const txt = li.querySelector('button').textContent.toLowerCase();
+      li.classList.toggle('hidden', !txt.includes(q));
+    });
+  }
+</script>
 
 </body>
 </html>
