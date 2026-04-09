@@ -24,12 +24,17 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    transition: left 0.3s ease; /* Animação para o celular */
+    transition: left 0.3s ease;
   }
 
   .nav-header {
     padding: 18px 16px 14px;
     border-bottom: 1px solid #2d3f55;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav-header:hover {
+    background: #243044;
   }
   .nav-header span {
     font-size: 11px;
@@ -42,6 +47,12 @@
   .nav-header h2 {
     font-size: 16px;
     font-weight: 700;
+  }
+  .nav-header .home-hint {
+    font-size: 10px;
+    color: #3b82f6;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
   }
 
   .nav-search {
@@ -132,7 +143,6 @@
     gap: 10px;
   }
 
-  /* Botão Hambúrguer (Oculto no Desktop) */
   .menu-toggle {
     display: none;
     background: none;
@@ -312,7 +322,6 @@
     50%       { box-shadow: 0 4px 32px rgba(245,158,11,0.85); }
   }
 
-  /* Fundo escuro quando o menu abre no celular */
   .sidebar-overlay {
     display: none;
     position: fixed;
@@ -324,23 +333,23 @@
   /* ===== RESPONSIVIDADE (CELULAR) ===== */
   @media (max-width: 768px) {
     .menu-toggle {
-      display: block; /* Mostra o botão hambúrguer */
+      display: block;
     }
 
     nav {
       position: fixed;
-      left: -240px; /* Esconde o menu fora da tela */
+      left: -240px;
       top: 0;
       bottom: 0;
       z-index: 100;
     }
 
     nav.open {
-      left: 0; /* Mostra o menu quando a classe 'open' é adicionada */
+      left: 0;
     }
 
     .sidebar-overlay.show {
-      display: block; /* Mostra o fundo escuro */
+      display: block;
     }
 
     .topbar {
@@ -351,7 +360,6 @@
       margin: 8px;
     }
 
-    /* Ajustes de texto para caber na tela do celular */
     .welcome-text h1 {
       font-size: 28px;
     }
@@ -373,13 +381,14 @@
 </head>
 <body>
 
-<!-- Fundo escuro para fechar o menu ao clicar fora -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMenu()"></div>
 
 <nav id="sidebar">
-  <div class="nav-header">
+  <!-- CABEÇALHO CLICÁVEL PARA VOLTAR AO INÍCIO -->
+  <div class="nav-header" onclick="goHome()" title="Voltar ao início">
     <span>Tabela de Preços</span>
     <h2>🔩 Catálogo Geral</h2>
+    <div class="home-hint">🏠 Clique para voltar ao início</div>
   </div>
 
   <div class="nav-search">
@@ -406,7 +415,7 @@
     <li><button onclick="loadSheet(this,'src/pf_gr2_zb.htm','PARAFUSO SEXT. GR2 Z.BRANCO','🔧')">
       <span class="ico">🔧</span> PARAFUSO SEXT. GR2 Z.BRANCO</button></li>
     <li><button onclick="loadSheet(this,'src/lentinha.htm','PARAFUSO LENTILHA','🔩')">
-    <span class="ico">🔩</span> PARAFUSO LENTILHA</button></li>
+      <span class="ico">🔩</span> PARAFUSO LENTILHA</button></li>
     <li><button onclick="loadSheet(this,'src/po_sx_gr2_zb.htm','PORCA SEXT. GR2 Z.BRANCO','🔧')">
       <span class="ico">🔧</span> PORCA SEXT. GR2 Z.BRANCO</button></li>
     <li><button onclick="loadSheet(this,'src/po_sx_cl8_et.htm','PORCA SEXT. DIN 934 CL8 ENEGRACIDA','🔧')">
@@ -434,9 +443,7 @@
 
 <div class="content">
   <div class="topbar">
-    <!-- Botão para abrir o menu no celular -->
     <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-
     <span class="topbar-icon" id="topbarIcon">📋</span>
     <h3 id="currentTitle">Selecione uma categoria</h3>
     <span class="badge" id="currentBadge">19 categorias</span>
@@ -474,10 +481,37 @@
 <script>
   let activeBtn = null;
 
-  // Função para abrir/fechar o menu no celular
   function toggleMenu() {
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('sidebarOverlay').classList.toggle('show');
+  }
+
+  function goHome() {
+    // Remove o destaque do botão ativo
+    if (activeBtn) {
+      activeBtn.classList.remove('active');
+      activeBtn = null;
+    }
+
+    // Restaura o topbar para o estado inicial
+    document.getElementById('currentTitle').textContent = 'Selecione uma categoria';
+    document.getElementById('topbarIcon').textContent = '📋';
+    document.getElementById('currentBadge').textContent = '19 categorias';
+
+    // Esconde o iframe e mostra a tela de boas-vindas
+    document.getElementById('contentFrame').style.display = 'none';
+    document.getElementById('contentFrame').src = '';
+    document.getElementById('welcomeScreen').style.display = 'flex';
+
+    // Fecha o menu no celular se estiver aberto
+    if (window.innerWidth <= 768) {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+      }
+    }
   }
 
   function loadSheet(btn, file, title, icon) {
@@ -494,7 +528,6 @@
     frame.style.display = 'block';
     frame.src = file;
 
-    // Fecha o menu automaticamente no celular após clicar em um item
     if (window.innerWidth <= 768) {
       toggleMenu();
     }
