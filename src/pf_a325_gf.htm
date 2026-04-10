@@ -5,72 +5,242 @@
 <title>Tabela</title>
 
 <style>
+/* ===== RESET DO EXCEL ===== */
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  margin: 16px;
-  background: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+  margin: 16px !important;
+  background: #fff !important;
+}
+
+/* Esconde menu de baixo, scrollbar do Excel e tabstrip */
+[id*="tab"], [id*="Tab"],
+[class*="tab"], [class*="Tab"],
+.MsoNormalTable,
+br { 
+  display: none !important; 
 }
 
 /* ===== TABELA ===== */
 table {
-  border-collapse: collapse;
-  width: 100%;
+  border-collapse: collapse !important;
+  width: 100% !important;
+  table-layout: auto !important;
+  position: static !important;
 }
 
-/* ===== CÉLULAS ===== */
+/* Remove posicionamento absoluto que o Excel usa */
 td, th {
-  font-size: 13px;
-  padding: 8px 12px;
-  border-bottom: 1px solid #e5e7eb;
-  white-space: nowrap;
+  position: static !important;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  padding: 7px 14px !important;
+  border: none !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
 }
 
-/* ===== CABEÇALHO ===== */
-th {
-  background: #1a2332;
-  color: #fff;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 12px;
+/* ===== CABEC ALHO ===== */
+tr:first-child td {
+  background: #1a2332 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
+  border: 1px solid #2d3f55 !important;
+  padding: 10px 14px !important;
 }
 
-/* ===== ZEBRADO ===== */
+/* ===== LINHAS ZEBRADAS ===== */
 tr:nth-child(even) td {
-  background: #f8fafc;
+  background: #f8fafc !important;
 }
 
 tr:hover td {
-  background: #eff6ff;
+  background: #eff6ff !important;
 }
 
-/* ===== COLUNAS ===== */
-td:nth-child(1) { min-width: 320px; }
-td:nth-child(2),
+/* ===== COLUNAS ESPECC
+FICAS ===== */
+
+/* DESCRICAO b  coluna 1 */
+td:nth-child(1) {
+  min-width: 320px !important;
+  max-width: 480px !important;
+  white-space: nowrap !important;
+}
+
+/* PESO TOTAL b  coluna 2 */
+td:nth-child(2) {
+  min-width: 100px !important;
+  text-align: right !important;
+}
+
+/* PESO CT b  coluna 3 */
 td:nth-child(3) {
-  text-align: right;
+  min-width: 90px !important;
+  text-align: right !important;
 }
 
-/* ICMS 18% */
+/* R$ ICMS 18% b  coluna 4 */
 td:nth-child(4) {
-  text-align: right;
-  color: #1d4ed8;
-  font-weight: 600;
+  min-width: 140px !important;
+  text-align: right !important;
+  color: #1d4ed8 !important;
+  font-weight: 600 !important;
 }
 
-/* ICMS 4% (CORRIGIDO) */
+/* R$ ICMS 4% b  coluna 5 */
 td:nth-child(5) {
-  text-align: right;
-  color: #059669;
-  font-weight: 600;
+  min-width: 130px !important;
+  text-align: right !important;
+  color: #059669 !important;
+  font-weight: 600 !important;
 }
 
-/* Centraliza o "-" corretamente */
-.vazio {
-  text-align: right;
-  color: #9ca3af;
-}
+/* ===== SCROLLBAR DISCRETA ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #c1c9d2; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
 </style>
-</head>
+
+<link rel=File-List href="pf_sx_8_8_zb_arquivos/filelist.xml">
+<style id="PARA LINK ACAO CURVA C_3489_Styles">
+<!--table
+	{mso-displayed-decimal-separator:"\,";
+	mso-displayed-thousand-separator:"\.";}
+.xl153489
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Aptos Narrow", sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:general;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl653489
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Aptos Narrow", sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl663489
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Aptos Narrow", sans-serif;
+	mso-font-charset:0;
+	mso-number-format:"\#\,\#\#0";
+	text-align:center;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl673489
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:12.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Aptos Narrow";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:center;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl683489
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Aptos Narrow", sans-serif;
+	mso-font-charset:0;
+	mso-number-format:General;
+	text-align:left;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl693489
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:12.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Aptos Narrow", sans-serif;
+	mso-font-charset:0;
+	mso-number-format:"_-\0022R$\0022\\ * \#\,\#\#0\.00_-\;\\-\0022R$\0022\\ * \#\,\#\#0\.00_-\;_-\0022R$\0022\\ * \0022-\0022??_-\;_-\@_-";
+	text-align:general;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+.xl703489
+	{padding-top:1px;
+	padding-right:1px;
+	padding-left:1px;
+	mso-ignore:padding;
+	color:black;
+	font-size:12.0pt;
+	font-weight:700;
+	font-style:normal;
+	text-decoration:none;
+	font-family:"Aptos Narrow";
+	mso-generic-font-family:auto;
+	mso-font-charset:0;
+	mso-number-format:"_-\0022R$\0022\\ * \#\,\#\#0\.00_-\;\\-\0022R$\0022\\ * \#\,\#\#0\.00_-\;_-\0022R$\0022\\ * \0022-\0022??_-\;_-\@_-";
+	text-align:general;
+	vertical-align:bottom;
+	mso-background-source:auto;
+	mso-pattern:auto;
+	white-space:nowrap;}
+-->
+</style>
 
 <body>
 <!--[if !excel]>&nbsp;&nbsp;<![endif]-->
